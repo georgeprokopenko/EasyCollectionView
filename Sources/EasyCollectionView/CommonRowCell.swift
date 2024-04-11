@@ -1,6 +1,6 @@
 import UIKit
 
-public class CommonRowCell: UICollectionViewCell {
+open class CommonRowCell: UICollectionViewCell {
 
     public override init(frame: CGRect) {
         super.init(frame: frame)
