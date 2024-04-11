@@ -1,17 +1,17 @@
 import UIKit
 import PinLayout
 
-protocol GPFlowLayoutDelegate: UICollectionViewDelegateFlowLayout {
+protocol ECFlowLayoutDelegate: UICollectionViewDelegateFlowLayout {
 
     func heightForItem(at indexPath: IndexPath, with width: CGFloat, in collectionView: UICollectionView) -> CGFloat
     func spacing(between indexPath: IndexPath, and anotherIndexPath: IndexPath, with width: CGFloat, in collectionView: UICollectionView) -> CGFloat?
     func heightForSupplementaryItem(with kind: String, at indexPath: IndexPath, with width: CGFloat) -> CGFloat?
     func additionalHorizontalInsetsForItem(at indexPath: IndexPath) -> UIEdgeInsets?
-    func lineAttributesForItem(at indexPath: IndexPath) -> GPFlowLayout.LineAttributes?
+    func lineAttributesForItem(at indexPath: IndexPath) -> ECFlowLayout.LineAttributes?
 }
 
 // MARK: Default implementations
-extension GPFlowLayoutDelegate {
+extension ECFlowLayoutDelegate {
 
     func spacing(between indexPath: IndexPath, and anotherIndexPath: IndexPath, with width: CGFloat, in collectionView: UICollectionView) -> CGFloat? {
         nil
@@ -25,14 +25,14 @@ extension GPFlowLayoutDelegate {
         nil
     }
 
-    func lineAttributesForItem(at indexPath: IndexPath) -> GPFlowLayout.LineAttributes? {
+    func lineAttributesForItem(at indexPath: IndexPath) -> ECFlowLayout.LineAttributes? {
         nil
     }
 }
 
-class GPFlowLayout: UICollectionViewFlowLayout {
+public class ECFlowLayout: UICollectionViewFlowLayout {
 
-    weak var fbFlowLayoutDelegate: GPFlowLayoutDelegate?
+    weak var fbFlowLayoutDelegate: ECFlowLayoutDelegate?
 
     struct LineAttributes: Equatable {
         let numberOfItems: Int
@@ -51,7 +51,7 @@ class GPFlowLayout: UICollectionViewFlowLayout {
     private var cache = [IndexPath: UICollectionViewLayoutAttributes]()
     private var visibleLayoutAttributes = [UICollectionViewLayoutAttributes]()
 
-    override var collectionViewContentSize: CGSize {
+    public override var collectionViewContentSize: CGSize {
         CGSize(width: collectionView?.frame.size.width ?? 0, height: contentHeight)
     }
 
@@ -80,7 +80,7 @@ class GPFlowLayout: UICollectionViewFlowLayout {
 
     var invalidateCustomConfigurationOnScroll: Bool = false
 
-    override func prepare() {
+    public override func prepare() {
         super.prepare()
 
         guard let collectionView = collectionView, cache.isEmpty else {
@@ -206,7 +206,7 @@ class GPFlowLayout: UICollectionViewFlowLayout {
 
     private var skipClearCacheForNextInvalidate = false
 
-    override func invalidateLayout() {
+    public override func invalidateLayout() {
         super.invalidateLayout()
 
         if skipClearCacheForNextInvalidate {
@@ -218,7 +218,7 @@ class GPFlowLayout: UICollectionViewFlowLayout {
         }
     }
 
-    override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
+    public override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
         if newBounds.size != oldBounds.size {
             cache.removeAll(keepingCapacity: true)
             customRowsCache.removeAll(keepingCapacity: true)
@@ -237,19 +237,19 @@ class GPFlowLayout: UICollectionViewFlowLayout {
         return false
     }
 
-    override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+    public override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         customRowsCache[indexPath] ?? cache[indexPath]
     }
 
-    override func layoutAttributesForSupplementaryView(ofKind elementKind: String, at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
-        customKindsCache[GPFlowLayout.customKindsCacheKey(for: elementKind, indexPath: indexPath)]
+    public override func layoutAttributesForSupplementaryView(ofKind elementKind: String, at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+        customKindsCache[ECFlowLayout.customKindsCacheKey(for: elementKind, indexPath: indexPath)]
     }
 
-    override func layoutAttributesForDecorationView(ofKind elementKind: String, at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
-        customKindsCache[GPFlowLayout.customKindsCacheKey(for: elementKind, indexPath: indexPath)]
+    public override func layoutAttributesForDecorationView(ofKind elementKind: String, at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+        customKindsCache[ECFlowLayout.customKindsCacheKey(for: elementKind, indexPath: indexPath)]
     }
 
-    override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
+    public override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         visibleLayoutAttributes.removeAll(keepingCapacity: true)
 
         for (indexPath, attributes) in cache where attributes.frame.intersects(rect) && customRowsCache[indexPath] == nil {
@@ -273,7 +273,7 @@ class GPFlowLayout: UICollectionViewFlowLayout {
     @IBInspectable var disallowAppearanceAnimation: Bool = true
     var disallowAppearanceAnimationForIndexPaths = [IndexPath]()
 
-    override func initialLayoutAttributesForAppearingItem(at itemIndexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+    public override func initialLayoutAttributesForAppearingItem(at itemIndexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         guard interceptAnimations else {
             return super.initialLayoutAttributesForAppearingItem(at: itemIndexPath)
         }
@@ -293,7 +293,7 @@ class GPFlowLayout: UICollectionViewFlowLayout {
         return newAttributes
     }
 
-    override func finalLayoutAttributesForDisappearingItem(at itemIndexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+    public override func finalLayoutAttributesForDisappearingItem(at itemIndexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         guard interceptAnimations else {
             return super.finalLayoutAttributesForDisappearingItem(at: itemIndexPath)
         }
@@ -313,7 +313,7 @@ class GPFlowLayout: UICollectionViewFlowLayout {
         return newAttributes
     }
 
-    override func initialLayoutAttributesForAppearingDecorationElement(ofKind elementKind: String, at decorationIndexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+    public override func initialLayoutAttributesForAppearingDecorationElement(ofKind elementKind: String, at decorationIndexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         guard interceptAnimations else {
             return super.initialLayoutAttributesForAppearingDecorationElement(ofKind: elementKind, at: decorationIndexPath)
         }
@@ -327,7 +327,7 @@ class GPFlowLayout: UICollectionViewFlowLayout {
         return attributes
     }
 
-    override func finalLayoutAttributesForDisappearingDecorationElement(ofKind elementKind: String, at decorationIndexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+    public override func finalLayoutAttributesForDisappearingDecorationElement(ofKind elementKind: String, at decorationIndexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         guard interceptAnimations else {
             return super.finalLayoutAttributesForDisappearingDecorationElement(ofKind: elementKind, at: decorationIndexPath)
         }
@@ -341,7 +341,7 @@ class GPFlowLayout: UICollectionViewFlowLayout {
         return attributes
     }
 
-    override func initialLayoutAttributesForAppearingSupplementaryElement(ofKind elementKind: String, at elementIndexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+    public override func initialLayoutAttributesForAppearingSupplementaryElement(ofKind elementKind: String, at elementIndexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         guard interceptAnimations else {
             return super.initialLayoutAttributesForAppearingSupplementaryElement(ofKind: elementKind, at: elementIndexPath)
         }
@@ -355,7 +355,7 @@ class GPFlowLayout: UICollectionViewFlowLayout {
         return attributes
     }
 
-    override func finalLayoutAttributesForDisappearingSupplementaryElement(ofKind elementKind: String, at elementIndexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+    public override func finalLayoutAttributesForDisappearingSupplementaryElement(ofKind elementKind: String, at elementIndexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         guard interceptAnimations else {
             return super.finalLayoutAttributesForDisappearingSupplementaryElement(ofKind: elementKind, at: elementIndexPath)
         }
