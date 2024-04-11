@@ -269,8 +269,8 @@ public class ECFlowLayout: UICollectionViewFlowLayout {
 
     // MARK: - Appearance animations
 
-    @IBInspectable var interceptAnimations: Bool = true
-    @IBInspectable var disallowAppearanceAnimation: Bool = true
+    @IBInspectable public var interceptAnimations: Bool = true
+    @IBInspectable public var disallowAppearanceAnimation: Bool = true
     var disallowAppearanceAnimationForIndexPaths = [IndexPath]()
 
     public override func initialLayoutAttributesForAppearingItem(at itemIndexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
