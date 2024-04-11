@@ -29,7 +29,7 @@ open class CommonRowCell: UICollectionViewCell {
         didLoadLayout = true
     }
 
-    public func loadLayout() {
+    open func loadLayout() {
         fatalError("Override me")
     }
 }
