@@ -1,4 +1,5 @@
 import UIKit
+import Differ
 
 public protocol CollectionViewControllerProtocol: AnyObject {
     func reloadCollectionView(with rows: [CommonRowViewModelProtocol], animated: Bool)

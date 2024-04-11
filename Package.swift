@@ -1,3 +1,6 @@
+// swift-tools-version: 5.10
+// https://github.com/georgeprokopenko/EasyCollectionView
+
 import PackageDescription
 
 let package = Package(
@@ -11,12 +14,13 @@ let package = Package(
             targets: ["EasyCollectionView"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/layoutBox/PinLayout.git", from: "1.0.0")
+        .package(url: "https://github.com/layoutBox/PinLayout.git", from: "1.0.0"),
+        .package(url: "https://github.com/tonyarnold/Differ.git", from: "1.0.0")
     ],
     targets: [
         .target(
             name: "EasyCollectionView", 
-            dependencies: ["PinLayout"]
+            dependencies: ["PinLayout", "Differ"]
         ),
         .testTarget(
             name: "EasyCollectionViewTests",
