@@ -119,11 +119,11 @@ final public class CommonCollectionViewDataSource: NSObject, UICollectionViewDat
         return cell
     }
 
-    func itemForIndexPath(_ indexPath: IndexPath) -> CommonRowViewModelProtocol? {
+    public func itemForIndexPath(_ indexPath: IndexPath) -> CommonRowViewModelProtocol? {
         sections[safe: indexPath.section]?.rows[safe: indexPath.item]
     }
 
-    subscript(indexPath: IndexPath) -> CommonRowViewModelProtocol {
+    public subscript(indexPath: IndexPath) -> CommonRowViewModelProtocol {
         sections[indexPath.section][indexPath.row]
     }
 }

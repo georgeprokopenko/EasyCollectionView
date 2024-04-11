@@ -11,7 +11,7 @@ public protocol ECFlowLayoutDelegate: UICollectionViewDelegateFlowLayout {
 }
 
 // MARK: Default implementations
-extension ECFlowLayoutDelegate {
+public extension ECFlowLayoutDelegate {
 
     func spacing(between indexPath: IndexPath, and anotherIndexPath: IndexPath, with width: CGFloat, in collectionView: UICollectionView) -> CGFloat? {
         nil
