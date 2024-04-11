@@ -1,14 +1,14 @@
 import UIKit
 
-class CommonRowCell: UICollectionViewCell {
+public class CommonRowCell: UICollectionViewCell {
 
-    override init(frame: CGRect) {
+    public override init(frame: CGRect) {
         super.init(frame: frame)
 
         _loadLayout()
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
 
         _loadLayout()
@@ -29,7 +29,7 @@ class CommonRowCell: UICollectionViewCell {
         didLoadLayout = true
     }
 
-    func loadLayout() {
+    public func loadLayout() {
         fatalError("Override me")
     }
 }
