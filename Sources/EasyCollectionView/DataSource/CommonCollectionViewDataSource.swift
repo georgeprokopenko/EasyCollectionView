@@ -16,6 +16,10 @@ final public class CommonCollectionViewDataSource: NSObject, UICollectionViewDat
 
     var sections = [CommonSection]()
 
+    public var endIndex: Int {
+        rows.endIndex
+    }
+
     var rows: [CommonRowViewModelProtocol] {
         get {
             sections.first?.rows ?? []
