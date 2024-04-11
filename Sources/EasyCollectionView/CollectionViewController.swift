@@ -11,11 +11,11 @@ public protocol CollectionViewController: AnyObject {
 
 extension CollectionViewController {
 
-    func reloadCollectionView(with rows: [CommonRowViewModelProtocol], animated: Bool) {
+    public func reloadCollectionView(with rows: [CommonRowViewModelProtocol], animated: Bool) {
         reloadCollectionView(with: rows, animated: animated, completion: nil)
     }
 
-    func reloadCollectionView(
+    public func reloadCollectionView(
         with rows: [CommonRowViewModelProtocol],
         animated: Bool,
         customRowHeightDidChangeHandler: (() -> Void)? = nil, completion: ((Bool) -> Void)?
