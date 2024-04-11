@@ -1,7 +1,7 @@
 import UIKit
 
 @objc
-protocol CommonRowViewModelProtocol: AnyObject {
+public protocol CommonRowViewModelProtocol: AnyObject {
 
     var rowId: String { get }
     @objc optional var nibName: String { get }

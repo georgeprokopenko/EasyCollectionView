@@ -1,10 +1,10 @@
 import UIKit
 
-protocol CollectionViewControllerProtocol: AnyObject {
+public protocol CollectionViewControllerProtocol: AnyObject {
     func reloadCollectionView(with rows: [CommonRowViewModelProtocol], animated: Bool)
 }
 
-protocol CollectionViewController: AnyObject {
+public protocol CollectionViewController: AnyObject {
     var collectionView: UICollectionView! { get }
     var dataSource: CommonCollectionViewDataSource { get }
 }

@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-final class CommonCollectionViewDataSource: NSObject, UICollectionViewDataSource {
+final public class CommonCollectionViewDataSource: NSObject, UICollectionViewDataSource {
 
     private var registeredCellNibNames = Set<String>()
     private var registeredClassNames = Set<String>()
@@ -40,15 +40,15 @@ final class CommonCollectionViewDataSource: NSObject, UICollectionViewDataSource
 
     var supplementaryRows = [SupplementaryRowKey: CommonRowViewModelProtocol]()
 
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
+    public func numberOfSections(in collectionView: UICollectionView) -> Int {
         sections.count
     }
 
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         sections[section].rows.count
     }
 
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let row = sections[indexPath.section].rows[indexPath.row]
 
         if let nibName = row.nibName, !registeredCellNibNames.contains(nibName) {
@@ -84,7 +84,7 @@ final class CommonCollectionViewDataSource: NSObject, UICollectionViewDataSource
             }
     }
 
-    func collectionView(
+    public func collectionView(
         _ collectionView: UICollectionView,
         viewForSupplementaryElementOfKind kind: String,
         at indexPath: IndexPath
