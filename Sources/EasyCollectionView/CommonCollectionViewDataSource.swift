@@ -6,7 +6,7 @@ final public class CommonCollectionViewDataSource: NSObject, UICollectionViewDat
     private var registeredCellNibNames = Set<String>()
     private var registeredClassNames = Set<String>()
 
-    init(fillEmptySection: Bool = false) {
+    public init(fillEmptySection: Bool = false) {
         super.init()
 
         if fillEmptySection {

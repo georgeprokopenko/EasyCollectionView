@@ -1,7 +1,7 @@
 import UIKit
 import PinLayout
 
-protocol ECFlowLayoutDelegate: UICollectionViewDelegateFlowLayout {
+public protocol ECFlowLayoutDelegate: UICollectionViewDelegateFlowLayout {
 
     func heightForItem(at indexPath: IndexPath, with width: CGFloat, in collectionView: UICollectionView) -> CGFloat
     func spacing(between indexPath: IndexPath, and anotherIndexPath: IndexPath, with width: CGFloat, in collectionView: UICollectionView) -> CGFloat?
@@ -32,15 +32,15 @@ extension ECFlowLayoutDelegate {
 
 public class ECFlowLayout: UICollectionViewFlowLayout {
 
-    weak var fbFlowLayoutDelegate: ECFlowLayoutDelegate?
+    public weak var flowLayoutDelegate: ECFlowLayoutDelegate?
 
-    struct LineAttributes: Equatable {
+    public struct LineAttributes: Equatable {
         let numberOfItems: Int
         let spacing: CGFloat
 
-        static let fullWidth = LineAttributes(numberOfItems: 1, spacing: 0)
+        public static let fullWidth = LineAttributes(numberOfItems: 1, spacing: 0)
 
-        init(numberOfItems: Int, spacing: CGFloat) {
+        public init(numberOfItems: Int, spacing: CGFloat) {
             self.numberOfItems = max(numberOfItems, 1)
             self.spacing = spacing
         }
@@ -138,14 +138,14 @@ public class ECFlowLayout: UICollectionViewFlowLayout {
 
             for row in 0 ..< rowsCount {
                 let indexPath = IndexPath(row: row, section: section)
-                let lineAttributes = fbFlowLayoutDelegate?.lineAttributesForItem(at: indexPath) ?? .fullWidth
+                let lineAttributes = flowLayoutDelegate?.lineAttributesForItem(at: indexPath) ?? .fullWidth
                 let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
 
                 if currentLineAttributes == lineAttributes, currentLineRowsCount < lineAttributes.numberOfItems, let currentLineY = currentLineY {
                     // Append to existing line
                     let x = itemX(lineAttributes, currentLineHorizontalInsets, currentLineRowsCount)
                     let width = itemWidth(lineAttributes, currentLineHorizontalInsets, true)
-                    let height = fbFlowLayoutDelegate?.heightForItem(at: indexPath, with: width, in: collectionView) ?? itemSize.height
+                    let height = flowLayoutDelegate?.heightForItem(at: indexPath, with: width, in: collectionView) ?? itemSize.height
 
                     attributes.frame = CGRect(x: x, y: currentLineY, width: width, height: height)
                     cache[indexPath] = attributes
@@ -155,17 +155,17 @@ public class ECFlowLayout: UICollectionViewFlowLayout {
                 } else {
                     // Start new line
 
-                    let customInsets = fbFlowLayoutDelegate?.additionalHorizontalInsetsForItem(at: indexPath) ?? .zero
+                    let customInsets = flowLayoutDelegate?.additionalHorizontalInsetsForItem(at: indexPath) ?? .zero
 
                     let x = itemX(lineAttributes, customInsets, 0)
                     let width = itemWidth(lineAttributes, customInsets, true)
 
                     if row > 0 {
                         let previousIndexPath = IndexPath(row: row - 1, section: section)
-                        y += fbFlowLayoutDelegate?.spacing(between: previousIndexPath, and: indexPath, with: width, in: collectionView) ?? minimumLineSpacing
+                        y += flowLayoutDelegate?.spacing(between: previousIndexPath, and: indexPath, with: width, in: collectionView) ?? minimumLineSpacing
                     }
 
-                    let height = fbFlowLayoutDelegate?.heightForItem(at: indexPath, with: width, in: collectionView) ?? itemSize.height
+                    let height = flowLayoutDelegate?.heightForItem(at: indexPath, with: width, in: collectionView) ?? itemSize.height
 
                     attributes.frame = CGRect(x: x, y: y, width: width, height: height)
                     cache[indexPath] = attributes
